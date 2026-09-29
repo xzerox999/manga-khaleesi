@@ -24,23 +24,8 @@
 Abre una terminal de PowerShell en esta carpeta (`E:\Otros\Cuentos khaleesi\manga_demon_slayer`) y ejecuta:
 
 ```powershell
-# 1. Inicializar git
-git init
-
-# 2. Agregar todos los archivos (la web, portadas y PDFs procesados)
-git add .
-
-# 3. Guardar el primer commit
-git commit -m "Demon Slayer Manga - Coleccion para Khaleesi"
-
-# 4. Asegurar rama principal
-git branch -M main
-
-# 5. Conectar con tu repositorio de GitHub (reemplaza con tu URL de GitHub)
-git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-
-# 6. Subir todo
-git push -u origin main
+# Empujar el repositorio limpio (todos los archivos están por debajo de 42 MB)
+git push -u origin main --force
 ```
 
 *(Nota: Como son ~500 MB en total de PDFs optimizados, la primera subida tardará unos minutos según la velocidad de tu internet de subida).*
