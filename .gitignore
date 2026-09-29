@@ -1,0 +1,15 @@
+# Ignorar archivos en la raíz (los PDFs originales y el archivo RAR pesado)
+/*.pdf
+/*.PDF
+*.rar
+*.zip
+
+# Mantener los PDFs procesados y optimizados dentro de pdfs/
+!pdfs/*.pdf
+!pdfs/*.PDF
+
+# Temporales
+*.pyc
+__pycache__/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Demon Slayer: Kimetsu no Yaiba — Colección de Khaleesi</title>
+  <meta name="description" content="Lector interactivo del manga Demon Slayer: Kimetsu no Yaiba. Edición especial dedicada para Khaleesi. Fortaleza Dimensional Infinita y Cuenta Regresiva hacia el Amanecer.">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Manga Khaleesi">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+JP:wght@700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Hojas de Estilo -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/reader.css">
+</head>
+<body>
+
+  <!-- Franja decorativa Haori Tanjiro en la parte superior -->
+  <div class="tanjiro-stripe" aria-hidden="true"></div>
+
+  <!-- Fondo interactivo de pétalos de cerezo (Sakura) y brasas -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Efecto de Corte de Espada Nichirin (Transición de apertura) -->
+  <div id="katana-slash-overlay" class="katana-slash-overlay" aria-hidden="true">
+    <div class="slash-beam"></div>
+    <div class="kanji-flash">滅</div>
+  </div>
+
+  <!-- Contenedor Principal de la Biblioteca -->
+  <main class="app-container" id="main-content">
+    
+    <!-- Hero / Portada Principal -->
+    <header class="hero-section">
+      <div class="hero-badge-container">
+        <span class="hero-badge-icon">🌸</span>
+        <span class="hero-badge-text">Edición Especial Para Khaleesi</span>
+      </div>
+
+      <h1 class="hero-title">DEMON SLAYER</h1>
+      <p class="hero-subtitle-japanese">鬼滅の刃 • KIMETSU NO YAIBA</p>
+
+      <div class="khaleesi-dedication-box">
+        <div class="khaleesi-avatar" aria-label="Avatar Khaleesi">🗡️</div>
+        <div class="khaleesi-info">
+          <h3>¡Bienvenida a la batalla final, Khaleesi! ❤️</h3>
+          <p>Disfruta de toda la saga final: desde la Fortaleza Infinita hasta el desenlace de la historia.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Barra de Estadísticas y Continuar Lectura -->
+    <section class="stats-banner" aria-label="Progreso de lectura">
+      <div class="stats-group">
+        <div class="stat-item">
+          <span class="stat-num" id="stat-completed">0</span>
+          <span class="stat-label">Tomos Leídos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="stat-total">30</span>
+          <span class="stat-label">Total en Colección</span>
+        </div>
+      </div>
+
+      <button id="btn-resume-reading" class="btn-resume" type="button" style="display: none;">
+        <span>📖</span>
+        <span class="resume-text">Continuar Leyendo</span>
+      </button>
+    </section>
+
+    <!-- Barra de Filtros por Arco y Buscador -->
+    <nav class="controls-bar" aria-label="Filtros de capítulos">
+      <div class="filter-tabs" role="tablist">
+        <button class="tab-btn active" data-arc="all" type="button" role="tab">Todos los Tomos</button>
+        <button class="tab-btn" data-arc="Fortaleza Dimensional Infinita" type="button" role="tab">🏰 Fortaleza Infinita</button>
+        <button class="tab-btn" data-arc="Cuenta Regresiva hacia el Amanecer" type="button" role="tab">🌅 Amanecer Final</button>
+      </div>
+
+      <div class="search-wrapper">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input 
+          id="search-input" 
+          class="search-input" 
+          type="search" 
+          placeholder="Buscar capítulo (ej: 175, 200)..." 
+          aria-label="Buscar capítulo de manga"
+        >
+      </div>
+    </nav>
+
+    <!-- Estantería de Mangas (Grid de Tarjetas) -->
+    <section id="manga-grid" class="manga-grid" aria-label="Catálogo de capítulos del manga">
+      <!-- Generado dinámicamente con JavaScript -->
+    </section>
+
+    <!-- Pie de página sutil -->
+    <footer class="app-footer">
+      <p>Creado con todo el amor de un papá para <strong>Khaleesi</strong> 🌸</p>
+      <p style="margin-top: 6px; font-size: 0.75rem; opacity: 0.7;">Demon Slayer: Kimetsu no Yaiba © Koyoharu Gotouge / Shueisha</p>
+    </footer>
+
+  </main>
+
+  <!-- =============================================================
+       MODAL DEL LECTOR MANGA (PANTALLA COMPLETA INTERACTIVA)
+       ============================================================= -->
+  <div id="reader-modal" class="reader-modal theme-dark" role="dialog" aria-modal="true" aria-label="Visor de lectura manga">
+    
+    <!-- Barra Superior del Lector -->
+    <header id="reader-topbar" class="reader-topbar">
+      <div class="topbar-left">
+        <button id="btn-close-reader" class="btn-icon" title="Volver a la biblioteca" aria-label="Cerrar lector">
+          ⬅
+        </button>
+        <div class="reader-title-group">
+          <span id="reader-chapter-title" class="reader-title">Cargando...</span>
+          <span id="reader-chapter-arc" class="reader-subtitle">Fortaleza Infinita</span>
+        </div>
+      </div>
+
+      <div class="topbar-center">
+        <!-- Selector Modo de Lectura -->
+        <div class="mode-toggle-group">
+          <button id="btn-mode-book" class="mode-toggle-btn active" type="button" title="Modo Libro (Páginas)">
+            📖 Libro
+          </button>
+          <button id="btn-mode-webtoon" class="mode-toggle-btn" type="button" title="Modo Cascada (Webtoon Scroll)">
+            📜 Cascada
+          </button>
+        </div>
+
+        <!-- Selector RTL (Japonés) vs LTR -->
+        <button id="btn-toggle-direction" class="btn-icon" style="width: auto; padding: 0 10px; font-size: 0.75rem; font-weight: 700;" title="Dirección de lectura">
+          右 RTL
+        </button>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Lista rápida de capítulos -->
+        <button id="btn-open-drawer" class="btn-icon" title="Lista de capítulos" aria-label="Ver lista de capítulos">
+          📑
+        </button>
+        <!-- Alternar tema: oscuro vs papel -->
+        <button id="btn-toggle-theme" class="btn-icon" title="Tema de fondo" aria-label="Cambiar tema">
+          🌓
+        </button>
+        <!-- Pantalla completa -->
+        <button id="btn-fullscreen" class="btn-icon" title="Pantalla Completa" aria-label="Pantalla completa">
+          ⛶
+        </button>
+      </div>
+    </header>
+
+    <!-- Menú Desplegable Lateral de Capítulos (Drawer) -->
+    <aside id="chapter-drawer" class="chapter-drawer" aria-label="Índice de capítulos">
+      <div class="drawer-header">
+        <h4 style="font-size: 0.95rem; font-weight: 700;">Capítulos Disponibles</h4>
+        <button id="btn-close-drawer" class="btn-icon" style="width: 32px; height: 32px;">✕</button>
+      </div>
+      <div id="drawer-chapter-list" class="drawer-list"></div>
+    </aside>
+
+    <!-- Zona Central de Lectura (Viewport) -->
+    <div id="reader-viewport" class="reader-viewport">
+      
+      <!-- Zonas Táctiles invisibles para cambiar de página en tablets/celulares -->
+      <div id="tap-zone-left" class="tap-zone tap-zone-left" title="Tocar para pasar página"></div>
+      <div id="tap-zone-center" class="tap-zone tap-zone-center" title="Tocar para ocultar/mostrar barras"></div>
+      <div id="tap-zone-right" class="tap-zone tap-zone-right" title="Tocar para retroceder página"></div>
+
+      <!-- Contenedor Modo Libro -->
+      <div id="reader-pages" class="reader-pages-container"></div>
+
+      <!-- Contenedor Modo Webtoon (Scroll Vertical) -->
+      <div id="webtoon-container" class="webtoon-scroll-container" style="display: none;"></div>
+
+      <!-- Pantalla de Carga Demon Slayer -->
+      <div id="reader-loader" class="reader-loader">
+        <div class="loader-spinner"></div>
+        <p id="reader-loader-text" class="loader-text">Preparando páginas de combate...</p>
+      </div>
+    </div>
+
+    <!-- Barra Inferior de Controles y Salto de Página -->
+    <footer id="reader-bottombar" class="reader-bottombar">
+      <button id="btn-prev-page" class="btn-icon" title="Página anterior" aria-label="Página anterior">
+        ◀
+      </button>
+
+      <span id="reader-page-indicator" class="page-indicator-pill">Pág. 1 / 1</span>
+
+      <input 
+        id="reader-scrubber" 
+        class="scrubber-slider" 
+        type="range" 
+        min="1" 
+        max="1" 
+        value="1" 
+        aria-label="Selector de página"
+      >
+
+      <button id="btn-next-page" class="btn-icon" title="Página siguiente" aria-label="Página siguiente">
+        ▶
+      </button>
+    </footer>
+
+  </div>
+
+  <!-- Scripts: Vendor y Aplicación -->
+  <script src="js/vendor/pdf.min.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/reader.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

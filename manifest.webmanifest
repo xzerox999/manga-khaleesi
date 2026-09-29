@@ -1,0 +1,19 @@
+{
+  "name": "Demon Slayer Manga — Colección de Khaleesi",
+  "short_name": "Manga Khaleesi",
+  "description": "Lector interactivo de Demon Slayer: Kimetsu no Yaiba para Khaleesi",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c0c10",
+  "theme_color": "#0c0c10",
+  "icons": [
+    {
+      "src": "covers/cap_156-158.5.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

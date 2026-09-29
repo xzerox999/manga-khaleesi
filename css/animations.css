@@ -1,0 +1,134 @@
+/* ==========================================================================
+   ANIMACIONES KIMETSU NO YAIBA - NICHIRIN BLADE & SAKURA
+   ========================================================================== */
+
+/* Flotación suave de pétalos de sakura */
+@keyframes floatSakura {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(8deg);
+  }
+}
+
+/* Pulso de fuego en botones de acción */
+@keyframes flamePulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(214, 40, 40, 0.4), 0 0 30px rgba(247, 127, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(214, 40, 40, 0.7), 0 0 45px rgba(247, 127, 0, 0.4);
+  }
+}
+
+/* Efecto de espada Nichirin (Katana Slash Overlay) */
+.katana-slash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background: rgba(5, 5, 8, 0.85);
+  backdrop-filter: blur(8px);
+  transition: opacity 0.2s ease;
+}
+
+.katana-slash-overlay.active {
+  opacity: 1;
+}
+
+.slash-beam {
+  position: absolute;
+  width: 200%;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, #ffffff 40%, #ff4d6d 50%, #fcbf49 60%, transparent);
+  box-shadow: 0 0 40px #ff4d6d, 0 0 80px #fcbf49;
+  transform: rotate(-35deg) scaleX(0);
+  transform-origin: center;
+}
+
+.katana-slash-overlay.active .slash-beam {
+  animation: slashCut 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slashCut {
+  0% {
+    transform: rotate(-35deg) scaleX(0) translateX(-50%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-35deg) scaleX(1.4) translateX(20%);
+    opacity: 0;
+  }
+}
+
+/* Kanji / Katakana Flash Effect (ズバッ! / 滅) */
+.kanji-flash {
+  font-family: var(--font-japanese);
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 0 30px var(--nichirin-crimson), 0 0 60px var(--flame-gold);
+  transform: scale(0.6);
+  opacity: 0;
+  letter-spacing: 12px;
+}
+
+.katana-slash-overlay.active .kanji-flash {
+  animation: kanjiImpact 0.5s ease-out forwards;
+}
+
+@keyframes kanjiImpact {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Shimmer de carga para portadas */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerMove 1.5s infinite;
+}
+
+@keyframes shimmerMove {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Entrada escalonada de tarjetas manga */
+.manga-card {
+  animation: cardFadeIn 0.4s ease-out backwards;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
